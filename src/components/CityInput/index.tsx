@@ -1,39 +1,64 @@
-import React from 'react';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
+import React, { Fragment } from 'react';
+import {
+  Typography,
+  TextField,
+  Autocomplete,
+  CircularProgress,
+} from '@mui/material';
 import { useCityInput } from '../../hooks/useCityInput';
+import InputRow from './InputRow';
+import LoadingContainer from './LoadingContainer';
 
 interface Props {
-  inputName: string;
+  label: string;
 }
 
-function CityInput({ inputName }: Props) {
+function CityInput({ label }: Props) {
   const {
     value,
     inputValue,
     options,
+    error,
+    isLoading,
     onChange,
     onInputChange,
     getOptionLabel,
-  } = useCityInput(inputName);
+  } = useCityInput(label);
 
   return (
-    <Autocomplete
-      value={value}
-      options={options}
-      sx={{ width: 300 }}
-      filterOptions={(x) => x}
-      noOptionsText="Not found"
-      autoComplete
-      includeInputInList
-      filterSelectedOptions
-      getOptionLabel={getOptionLabel}
-      onChange={onChange}
-      onInputChange={onInputChange}
-      renderInput={(params) => (
-        <TextField {...params} value={inputValue} fullWidth />
+    <InputRow>
+      <Autocomplete
+        value={value}
+        options={options}
+        sx={{ width: 300 }}
+        filterOptions={(x) => x}
+        noOptionsText="Nothing found"
+        autoComplete
+        includeInputInList
+        filterSelectedOptions
+        getOptionLabel={getOptionLabel}
+        onChange={onChange}
+        onInputChange={onInputChange}
+        renderInput={(params) => (
+          <Fragment>
+            <Typography variant="caption">{label}</Typography>
+            <TextField
+              {...params}
+              value={inputValue}
+              error={!!error}
+              size="small"
+              helperText={error || ' '}
+              // helperText always exists, even if empty, to prevent layout shifting (CLS)
+            />
+          </Fragment>
+        )}
+      />
+      {isLoading && (
+        <LoadingContainer>
+          <CircularProgress color="inherit" size={25} />
+        </LoadingContainer>
       )}
-    />
+    </InputRow>
   );
 }
 

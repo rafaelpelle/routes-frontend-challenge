@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { City } from '../types/model';
+import { getCities } from '../api/mock';
 
-export function useCityInput(inputName: string) {
+export function useCityInput(label: string) {
   const [value, setValue] = useState<City | null>(null);
   const [inputValue, setInputValue] = useState<string>('');
   const [options, setOptions] = useState<City[]>([]);
   const [error, setError] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onChange = (
     event: React.SyntheticEvent<Element, Event>,
@@ -19,32 +21,44 @@ export function useCityInput(inputName: string) {
     event: React.SyntheticEvent<Element, Event>,
     newInputValue: string,
   ) => {
+    setValue(null);
     setInputValue(newInputValue);
-
-    if (!newInputValue) {
-      setOptions(value ? [value] : []);
-      setError(value ? '' : `You must choose the ${inputName}`);
-    } else {
-      fetchOptions(newInputValue);
-    }
+    setError(newInputValue ? '' : `You must choose the ${label}`);
   };
 
   const fetchOptions = async (newInputValue: string) => {
     try {
-      // TO-DO fake API request
+      setIsLoading(true);
+      const data = await getCities(newInputValue);
+      setOptions(data);
     } catch (error) {
       setError('Oops! Failed to search with this keyword.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const getOptionLabel = (option: City | string) =>
     typeof option === 'string' ? option : option.name;
 
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      if (!inputValue) {
+        setOptions(value ? [value] : []);
+      } else {
+        fetchOptions(inputValue);
+      }
+    }, 400);
+
+    return () => clearTimeout(debounce);
+  }, [value, inputValue, label]);
+
   return {
     value,
     inputValue,
     options,
     error,
+    isLoading,
     onChange,
     onInputChange,
     getOptionLabel,

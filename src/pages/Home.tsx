@@ -6,7 +6,7 @@ function HomePage() {
   return (
     <PageContainer>
       <ContentContainer>
-        <CityInput />
+        <CityInput label="City of origin" />
       </ContentContainer>
     </PageContainer>
   );
