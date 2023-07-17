@@ -1,5 +1,12 @@
+import PageContainer from '../components/PageContainer';
+import ContentContainer from '../components/ContentContainer';
+
 function HomePage() {
-  return <div>HomePage</div>;
+  return (
+    <PageContainer>
+      <ContentContainer>HomePage</ContentContainer>
+    </PageContainer>
+  );
 }
 
 export default HomePage;
