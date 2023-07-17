@@ -5,26 +5,39 @@ import {
   Autocomplete,
   CircularProgress,
 } from '@mui/material';
-import { useCityInput } from '../../hooks/useCityInput';
+import { City } from '../../types/model';
 import InputRow from './InputRow';
 import LoadingContainer from './LoadingContainer';
 
 interface Props {
+  value: City | null;
+  inputValue: string;
+  options: City[];
+  error: string;
+  isLoading: boolean;
   label: string;
+  onChange: (
+    event: React.SyntheticEvent<Element, Event>,
+    newValue: City | null,
+  ) => void;
+  onInputChange: (
+    event: React.SyntheticEvent<Element, Event>,
+    newInputValue: string,
+  ) => void;
+  getOptionLabel: (option: City | string) => string;
 }
 
-function CityInput({ label }: Props) {
-  const {
-    value,
-    inputValue,
-    options,
-    error,
-    isLoading,
-    onChange,
-    onInputChange,
-    getOptionLabel,
-  } = useCityInput(label);
-
+function CityInput({
+  value,
+  inputValue,
+  options,
+  error,
+  isLoading,
+  label,
+  onChange,
+  onInputChange,
+  getOptionLabel,
+}: Props) {
   return (
     <InputRow>
       <Autocomplete

@@ -45,7 +45,7 @@ export function useCityInput(label: string) {
     const debounce = setTimeout(() => {
       if (!inputValue) {
         setOptions(value ? [value] : []);
-      } else {
+      } else if (!value) {
         fetchOptions(inputValue);
       }
     }, 400);
@@ -59,6 +59,7 @@ export function useCityInput(label: string) {
     options,
     error,
     isLoading,
+    label,
     onChange,
     onInputChange,
     getOptionLabel,
