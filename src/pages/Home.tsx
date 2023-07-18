@@ -42,7 +42,7 @@ function HomePage() {
               <Box mr={3} mt={3} mb={5}>
                 <VerticalStepper length={values.length} />
               </Box>
-              <Box>
+              <Box width="100%">
                 {values.map((value, index) => (
                   <CityInput
                     key={index}
