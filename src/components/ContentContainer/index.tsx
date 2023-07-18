@@ -10,6 +10,12 @@ const ContentContainer = styled.div`
   width: 100%;
   max-width: 734px;
   padding: 60px 80px;
+
+  @media only screen and (max-width: 900px) {
+    // 900px is the material-ui md breakpoint.
+    padding: 24px 12px;
+    border-radius: 0px;
+  }
 `;
 
 export default ContentContainer;

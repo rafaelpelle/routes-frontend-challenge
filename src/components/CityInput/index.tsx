@@ -5,27 +5,10 @@ import {
   Autocomplete,
   CircularProgress,
 } from '@mui/material';
-import { City } from '../../types/model';
+import { CityInputProps } from '../../types/components';
 import InputRow from './InputRow';
 import LoadingContainer from './LoadingContainer';
-
-interface Props {
-  value: City | null;
-  inputValue: string;
-  options: City[];
-  error: string;
-  isLoading: boolean;
-  label: string;
-  onChange: (
-    event: React.SyntheticEvent<Element, Event>,
-    newValue: City | null,
-  ) => void;
-  onInputChange: (
-    event: React.SyntheticEvent<Element, Event>,
-    newInputValue: string,
-  ) => void;
-  getOptionLabel: (option: City | string) => string;
-}
+import { City } from '../../types/model';
 
 function CityInput({
   value,
@@ -34,24 +17,30 @@ function CityInput({
   error,
   isLoading,
   label,
+  index,
   onChange,
   onInputChange,
   getOptionLabel,
-}: Props) {
+}: CityInputProps) {
   return (
     <InputRow>
       <Autocomplete
         value={value}
         options={options}
-        sx={{ width: 300 }}
-        filterOptions={(x) => x}
         noOptionsText="Nothing found"
         autoComplete
         includeInputInList
+        fullWidth
         filterSelectedOptions
         getOptionLabel={getOptionLabel}
-        onChange={onChange}
-        onInputChange={onInputChange}
+        onChange={(
+          event: React.SyntheticEvent<Element, Event>,
+          newValue: City | null,
+        ) => onChange(event, newValue, index as number)}
+        onInputChange={(
+          event: React.SyntheticEvent<Element, Event>,
+          newValue: string,
+        ) => onInputChange(event, newValue, index as number)}
         renderInput={(params) => (
           <Fragment>
             <Typography variant="caption">{label}</Typography>
