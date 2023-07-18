@@ -1,15 +1,15 @@
 import React, { Fragment } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
-  Typography,
-  TextField,
   Autocomplete,
+  Box,
   CircularProgress,
   IconButton,
+  TextField,
+  Typography,
 } from '@mui/material';
 import { CityInputProps } from '../../types/components';
 import { City } from '../../types/model';
-import InputRow from './InputRow';
 import LoadingContainer from './LoadingContainer';
 import IconPlaceholder from './IconPlaceholder';
 
@@ -27,7 +27,7 @@ function CityInput({
   removeDestination,
 }: CityInputProps) {
   return (
-    <InputRow>
+    <Box mb={2} display="flex" alignItems="center">
       <Autocomplete
         value={value}
         options={options}
@@ -72,7 +72,7 @@ function CityInput({
         <IconPlaceholder />
         // icon always exists, even if empty, to prevent layout shifting (CLS)
       )}
-    </InputRow>
+    </Box>
   );
 }
 

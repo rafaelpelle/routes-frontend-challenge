@@ -1,3 +1,4 @@
+import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   Box,
   IconButton,
@@ -14,8 +15,10 @@ function PassengersInput({
   handleIncrease,
   handleDecrease,
 }: PassengersInputProps) {
+  const isDesktop = useMediaQuery('(min-width:900px)');
+
   return (
-    <Box width={130}>
+    <Box width={isDesktop ? 150 : 125}>
       <Typography variant="caption">Passengers</Typography>
       <br />
       <TextField

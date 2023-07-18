@@ -1,10 +1,12 @@
-import { Button, Grid } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import { useCityInput } from '../hooks/useCityInput';
 import { usePassengersInput } from '../hooks/usePassengersInput';
+import { useDateInput } from '../hooks/useDateInput';
 import PageContainer from '../components/PageContainer';
 import ContentContainer from '../components/ContentContainer';
 import CityInput from '../components/CityInput';
 import PassengersInput from '../components/PassengersInput';
+import DateInput from '../components/DateInput';
 
 function HomePage() {
   const {
@@ -21,6 +23,7 @@ function HomePage() {
   } = useCityInput();
 
   const passengersInputProps = usePassengersInput();
+  const dateInputProps = useDateInput();
 
   return (
     <PageContainer>
@@ -54,9 +57,22 @@ function HomePage() {
               Add destination
             </Button>
           </Grid>
-          <Grid item xs={12} md={4}>
-            {/* TO-DO Date and passangers */}
-            <PassengersInput {...passengersInputProps} />
+          <Box
+            component={Grid}
+            item
+            xs={1}
+            display={{ xs: 'block', md: 'none' }}
+          />
+          <Grid item xs={11} md={4}>
+            <Grid container>
+              <Grid item xs={6} md={12}>
+                {' '}
+                <PassengersInput {...passengersInputProps} />
+              </Grid>
+              <Grid item xs={6} md={12}>
+                <DateInput {...dateInputProps} />
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </ContentContainer>

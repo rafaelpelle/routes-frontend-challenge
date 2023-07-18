@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs';
 import { City } from './model';
 
 export interface CityInputProps {
@@ -27,4 +28,9 @@ export interface PassengersInputProps {
   error: string;
   handleIncrease: () => void;
   handleDecrease: () => void;
+}
+
+export interface DateInputProps {
+  value: Dayjs | null;
+  onChange: (value: Dayjs | null) => void;
 }
