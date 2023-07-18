@@ -34,3 +34,7 @@ export interface DateInputProps {
   value: Dayjs | null;
   onChange: (value: Dayjs | null) => void;
 }
+
+export interface VerticalStepperProps {
+  length: number;
+}
