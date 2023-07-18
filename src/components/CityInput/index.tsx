@@ -55,6 +55,7 @@ function CityInput({
               size="small"
               helperText={error || ' '}
               // helperText always exists, even if empty, to prevent layout shifting (CLS)
+              // docs: https://mui.com/material-ui/react-text-field/#helper-text
             />
           </Fragment>
         )}

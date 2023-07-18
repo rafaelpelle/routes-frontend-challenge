@@ -21,3 +21,10 @@ export interface CityInputProps {
   getOptionLabel: (option: City | string) => string;
   removeDestination?: (index: number) => void;
 }
+
+export interface PassengersInputProps {
+  value: number;
+  error: string;
+  handleIncrease: () => void;
+  handleDecrease: () => void;
+}
