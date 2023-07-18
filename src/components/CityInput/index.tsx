@@ -1,14 +1,17 @@
 import React, { Fragment } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Typography,
   TextField,
   Autocomplete,
   CircularProgress,
+  IconButton,
 } from '@mui/material';
 import { CityInputProps } from '../../types/components';
+import { City } from '../../types/model';
 import InputRow from './InputRow';
 import LoadingContainer from './LoadingContainer';
-import { City } from '../../types/model';
+import IconPlaceholder from './IconPlaceholder';
 
 function CityInput({
   value,
@@ -21,13 +24,14 @@ function CityInput({
   onChange,
   onInputChange,
   getOptionLabel,
+  removeDestination,
 }: CityInputProps) {
   return (
     <InputRow>
       <Autocomplete
         value={value}
         options={options}
-        noOptionsText="Nothing found"
+        noOptionsText={inputValue ? 'Nothing found' : 'Search your city name'}
         autoComplete
         includeInputInList
         fullWidth
@@ -36,11 +40,11 @@ function CityInput({
         onChange={(
           event: React.SyntheticEvent<Element, Event>,
           newValue: City | null,
-        ) => onChange(event, newValue, index as number)}
+        ) => onChange(event, newValue, index)}
         onInputChange={(
           event: React.SyntheticEvent<Element, Event>,
           newValue: string,
-        ) => onInputChange(event, newValue, index as number)}
+        ) => onInputChange(event, newValue, index)}
         renderInput={(params) => (
           <Fragment>
             <Typography variant="caption">{label}</Typography>
@@ -55,10 +59,17 @@ function CityInput({
           </Fragment>
         )}
       />
-      {isLoading && (
+      {isLoading ? (
         <LoadingContainer>
           <CircularProgress color="inherit" size={25} />
         </LoadingContainer>
+      ) : !!removeDestination ? (
+        <IconButton color="inherit" onClick={() => removeDestination(index)}>
+          <DeleteIcon />
+        </IconButton>
+      ) : (
+        <IconPlaceholder />
+        // icon always exists, even if empty, to prevent layout shifting (CLS)
       )}
     </InputRow>
   );

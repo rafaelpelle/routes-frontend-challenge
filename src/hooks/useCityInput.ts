@@ -1,111 +1,114 @@
 import { useState } from 'react';
 import { City } from '../types/model';
-import { CityInputProps } from '../types/components';
 import { getCities } from '../api/mock';
 
 export function useCityInput() {
-  const onChange = (
-    event: React.SyntheticEvent<Element, Event>,
-    newValue: City | null,
-    index: number,
-  ) => {
-    const newInputs = [...inputs];
-    newInputs[index] = {
-      ...newInputs[index],
-      value: newValue,
-      options: newValue
-        ? [newValue, ...newInputs[index].options]
-        : newInputs[index].options,
-    };
-    setInputs(newInputs);
+  const [values, setValues] = useState<(City | null)[]>([null, null]);
+  const [inputValues, setInputValues] = useState<string[]>(['', '']);
+  const [options, setOptions] = useState<City[][]>([[], []]);
+  const [errors, setErrors] = useState<string[]>(['', '']);
+  const [loadings, setLoadings] = useState<boolean[]>([false, false]);
+
+  const onChange = (_: any, newValue: City | null, index: number) => {
+    const newValues = [...values];
+    const newInputValues = [...inputValues];
+    const newOptions = [...options];
+    newValues[index] = newValue;
+    newInputValues[index] = newValue?.name || '';
+    newOptions[index] = newValue ? [newValue] : [];
+    setValues(newValues);
+    setInputValues(newInputValues);
+    setOptions(newOptions);
   };
 
-  const onInputChange = (
-    event: React.SyntheticEvent<Element, Event>,
-    newInputValue: string,
-    index: number,
-  ) => {
-    const newInputs = [...inputs];
+  const onInputChange = (_: any, newInputValue: string, index: number) => {
     if (!newInputValue) {
-      newInputs[index] = {
-        ...newInputs[index],
-        // value: null,
-        inputValue: newInputValue,
-        error: `You must choose the ${newInputs[index].label}`,
-        options: newInputs[index].value ? [newInputs[index].value as City] : [],
-      };
-      setInputs(newInputs);
+      const newValues = [...values];
+      const newInputValues = [...inputValues];
+      const newOptions = [...options];
+      const newErrors = [...errors];
+      newValues[index] = null;
+      newInputValues[index] = newInputValue;
+      newOptions[index] = [];
+      newErrors[index] = `You must choose the city of ${
+        index === 0 ? 'origin' : 'destination'
+      }`;
+      setValues(newValues);
+      setInputValues(newInputValues);
+      setOptions(newOptions);
+      setErrors(newErrors);
     } else {
       fetchOptions(newInputValue, index);
-      newInputs[index] = {
-        ...newInputs[index],
-        value: null,
-        inputValue: newInputValue,
-        error: '',
-      };
     }
   };
 
   const fetchOptions = async (newInputValue: string, index: number) => {
     try {
-      const newInputs = [...inputs];
-      newInputs[index].isLoading = true;
-      setInputs(newInputs);
+      const newValues = [...values];
+      const newLoadings = [...loadings];
+      const newErrors = [...errors];
+      newValues[index] = null;
+      newLoadings[index] = true;
+      newErrors[index] = '';
+      setValues(newValues);
+      setLoadings(newLoadings);
+      setErrors(newErrors);
 
       const data = await getCities(newInputValue);
 
-      newInputs[index].isLoading = false;
-      newInputs[index].options = data;
-      setInputs(newInputs);
+      const newOptions = [...options];
+      newOptions[index] = data;
+      setOptions(newOptions);
+      setLoadings(Array.from({ length: loadings.length }, () => false));
     } catch (error) {
-      const newInputs = [...inputs];
-      newInputs[index].isLoading = true;
-      newInputs[index].error = 'Oops! Failed to search with this keyword.';
-      setInputs(newInputs);
+      const newLoadings = [...loadings];
+      const newErrors = [...errors];
+      newLoadings[index] = false;
+      newErrors[index] = 'Oops! Failed to search with this keyword.';
+      setLoadings(newLoadings);
+      setErrors(newErrors);
     }
   };
-
-  // useEffect(() => {
-  //   const debounce = setTimeout(() => {
-  //     if (!inputValue) {
-  //       setOptions(value ? [value] : []);
-  //     } else if (!value) {
-  //       fetchOptions(inputValue);
-  //     }
-  //   }, 400);
-
-  //   return () => clearTimeout(debounce);
-  // }, [value, inputValue, label]);
 
   const getOptionLabel = (option: City | string) =>
     typeof option === 'string' ? option : option.name;
 
-  const [inputs, setInputs] = useState<CityInputProps[]>([
-    {
-      value: null,
-      inputValue: '',
-      options: [],
-      error: '',
-      isLoading: false,
-      label: 'City of origin',
-      onChange,
-      onInputChange,
-      getOptionLabel,
-    },
-    {
-      value: null,
-      inputValue: '',
-      options: [],
-      error: '',
-      isLoading: false,
-      label: 'City of destination',
-      onChange,
-      onInputChange,
-      getOptionLabel,
-    },
-  ]);
+  const handleAddDestination = () => {
+    setValues([...values, null]);
+    setInputValues([...inputValues, '']);
+    setOptions([...options, []]);
+    setErrors([...errors, '']);
+    setLoadings([...loadings, false]);
+  };
+
+  const handleRemoveDestination = (index: number) => {
+    const newValues = [...values];
+    const newInputValues = [...inputValues];
+    const newOptions = [...options];
+    const newErrors = [...errors];
+    const newLoadings = [...loadings];
+    newValues.splice(index, 1);
+    newInputValues.splice(index, 1);
+    newOptions.splice(index, 1);
+    newErrors.splice(index, 1);
+    newLoadings.splice(index, 1);
+    setValues(newValues);
+    setInputValues(newInputValues);
+    setOptions(newOptions);
+    setErrors(newErrors);
+    setLoadings(newLoadings);
+  };
 
   return {
-    inputs,
+    values,
+    inputValues,
+    options,
+    errors,
+    loadings,
+    onChange,
+    onInputChange,
+    getOptionLabel,
+    handleAddDestination,
+    handleRemoveDestination,
   };
 }

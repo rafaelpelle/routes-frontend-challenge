@@ -7,7 +7,7 @@ export interface CityInputProps {
   error: string;
   isLoading: boolean;
   label: string;
-  index?: number;
+  index: number;
   onChange: (
     event: React.SyntheticEvent<Element, Event>,
     newValue: City | null,
@@ -19,4 +19,5 @@ export interface CityInputProps {
     index: number,
   ) => void;
   getOptionLabel: (option: City | string) => string;
+  removeDestination?: (index: number) => void;
 }

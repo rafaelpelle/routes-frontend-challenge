@@ -5,7 +5,18 @@ import CityInput from '../components/CityInput';
 import { useCityInput } from '../hooks/useCityInput';
 
 function HomePage() {
-  const { inputs } = useCityInput();
+  const {
+    values,
+    inputValues,
+    options,
+    errors,
+    loadings,
+    onChange,
+    onInputChange,
+    getOptionLabel,
+    handleAddDestination,
+    handleRemoveDestination,
+  } = useCityInput();
 
   return (
     <PageContainer>
@@ -15,12 +26,29 @@ function HomePage() {
             {/* TO-DO breadcrumb icons */}
           </Grid>
           <Grid item xs={11} md={7}>
-            {inputs.map((cityProps, index) => (
-              <CityInput {...cityProps} index={index} key={index} />
+            {values.map((value, index) => (
+              <CityInput
+                index={index}
+                key={index}
+                value={value}
+                inputValue={inputValues[index]}
+                options={options[index]}
+                error={errors[index]}
+                isLoading={loadings[index]}
+                label={index === 0 ? 'City of origin' : 'City of destination'}
+                onChange={onChange}
+                onInputChange={onInputChange}
+                getOptionLabel={getOptionLabel}
+                removeDestination={
+                  index >= 1 && values.length >= 3
+                    ? handleRemoveDestination
+                    : undefined
+                }
+              />
             ))}
-            {/* <Button variant="text" onClick={useAddIntermediateCity}>
+            <Button variant="text" onClick={handleAddDestination}>
               Add destination
-            </Button> */}
+            </Button>
           </Grid>
           <Grid item xs={12} md={4}>
             {/* TO-DO Date and passangers */}
