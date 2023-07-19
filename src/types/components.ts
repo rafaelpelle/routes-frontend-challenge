@@ -36,4 +36,11 @@ export interface DateInputProps {
 
 export interface VerticalStepperProps {
   length: number;
+  labels?: string[];
+  distances?: string[];
+}
+
+export interface DistanceTooltipProps {
+  distance: string;
+  children: React.ReactElement<any, any>;
 }
