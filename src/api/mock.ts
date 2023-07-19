@@ -34,6 +34,12 @@ export const getDistanceBetweenCities = async (
       totalDistance += distance;
       distances.push(`${distance.toFixed(2)} km`);
     }
+
+    // When “Dijon” city is involved the distance calculation should fail
+    // to demonstrate the error handling abilities of the UI.
+    if (city.name.includes('Dijon')) {
+      throw new Error('Sorry! Something went wrong...');
+    }
   });
 
   return { distances, totalDistance };
