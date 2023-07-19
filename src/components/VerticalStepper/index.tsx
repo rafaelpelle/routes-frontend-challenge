@@ -52,19 +52,19 @@ function VerticalStepper({ length, labels, distances }: VerticalStepperProps) {
         );
         return distances && distances[index] ? (
           <Tooltip
+            key={index}
             open
             arrow
             placement="left"
-            TransitionProps={{ timeout: 1500 }}
+            TransitionProps={{ timeout: 1000 }}
             title={
-              <Typography variant="body1" color="primary">
+              <Typography variant="body2" color="primary">
                 {distances[index]}
               </Typography>
             }
             componentsProps={{
               tooltip: {
                 sx: {
-                  display: 'inline-block',
                   top: '30px',
                   padding: '3px 12px',
                   border: '1px solid',

@@ -9,6 +9,7 @@ const ContentContainer = styled.div`
   border-radius: 16px;
   width: 100%;
   max-width: 734px;
+  min-height: 440px;
   padding: 60px 80px;
 
   @media only screen and (max-width: 900px) {
