@@ -1,4 +1,5 @@
-import { useCallback, useMemo } from 'react';
+import { useEffect, useCallback, useMemo } from 'react';
+import dayjs from 'dayjs';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, Button, Grid } from '@mui/material';
@@ -14,13 +15,16 @@ import DateInput from '../components/DateInput';
 import VerticalStepper from '../components/VerticalStepper';
 
 function HomePage() {
+  const INITIAL_DATE = dayjs();
+  const INITIAL_PASSENGERS = 1;
+
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const isDesktop = useMediaQuery('(min-width:900px)');
 
-  const passengersInputProps = usePassengersInput();
-  const dateInputProps = useDateInput();
+  const passengersInputProps = usePassengersInput(INITIAL_PASSENGERS);
+  const dateInputProps = useDateInput(INITIAL_DATE);
   const {
     values,
     inputValues,
@@ -33,6 +37,14 @@ function HomePage() {
     handleAddDestination,
     handleRemoveDestination,
   } = useCityInput();
+
+  useEffect(() => {
+    searchParams.set('passengers', `${INITIAL_PASSENGERS}`);
+    searchParams.set('date', INITIAL_DATE.toJSON());
+    setSearchParams(searchParams);
+    // dependencies intentionally empty to run only once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const shouldRenderRemoveButton = useCallback(
     (index: number) => index >= 1 && values.length >= 3,

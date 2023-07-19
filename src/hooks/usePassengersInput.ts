@@ -3,8 +3,10 @@ import { useSearchParams } from 'react-router-dom';
 import { PassengersInputProps } from '../types/components';
 import { parseSearchParams } from '../utils/searchParams';
 
-export function usePassengersInput(): PassengersInputProps {
-  const [value, setValue] = useState<number>(1);
+export function usePassengersInput(
+  INITIAL_VALUE: number,
+): PassengersInputProps {
+  const [value, setValue] = useState<number>(INITIAL_VALUE);
   const [error, setError] = useState<string>('');
   const [searchParams, setSearchParams] = useSearchParams();
 

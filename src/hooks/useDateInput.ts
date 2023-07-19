@@ -4,8 +4,8 @@ import { useSearchParams } from 'react-router-dom';
 import { DateInputProps } from '../types/components';
 import { parseSearchParams } from '../utils/searchParams';
 
-export function useDateInput(): DateInputProps {
-  const [value, setValue] = useState<Dayjs | null>(dayjs());
+export function useDateInput(INITIAL_VALUE: Dayjs): DateInputProps {
+  const [value, setValue] = useState<Dayjs | null>(INITIAL_VALUE);
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
