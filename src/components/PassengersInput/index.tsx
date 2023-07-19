@@ -31,14 +31,14 @@ function PassengersInput({ value, error, handleChange }: PassengersInputProps) {
           style: { padding: '0px 4px' },
           startAdornment: (
             <InputAdornment position="start">
-              <IconButton onClick={() => handleChange(-1)}>
+              <IconButton color="primary" onClick={() => handleChange(-1)}>
                 <IndeterminateCheckBox />
               </IconButton>
             </InputAdornment>
           ),
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton onClick={() => handleChange(1)}>
+              <IconButton color="primary" onClick={() => handleChange(1)}>
                 <AddBox />
               </IconButton>
             </InputAdornment>

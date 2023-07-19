@@ -24,10 +24,7 @@ export function usePassengersInput(): PassengersInputProps {
       const newSearchParams = parseSearchParams(searchParams);
       newSearchParams.passengers = `${newValue}`;
       setSearchParams(newSearchParams);
-
-      if (newValue === 0) {
-        setError('Select passengers');
-      }
+      setError(newValue === 0 ? 'Select passengers' : '');
     }
   };
 
