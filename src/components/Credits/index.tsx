@@ -14,7 +14,12 @@ function Credits() {
   return (
     <CustomBox>
       <small>
-        <a href="https://www.flaticon.com/free-icons/route" title="route icons">
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://www.flaticon.com/free-icons/route"
+          title="route icons"
+        >
           Route icon created by Freepik - Flaticon
         </a>
       </small>

@@ -1,36 +1,9 @@
-import {
-  Step,
-  Stepper,
-  StepConnector,
-  Typography,
-  Tooltip,
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Typography, Tooltip } from '@mui/material';
 import { CircleOutlined, PlaceOutlined } from '@mui/icons-material';
 import { VerticalStepperProps } from '../../types/components';
-
-const CustomStepper = styled(Stepper)(() => ({
-  height: '100%',
-}));
-
-const CustomStep = styled(Step)(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  [`& .MuiTypography-body2`]: {
-    marginLeft: '4px',
-  },
-}));
-
-const CustomConnector = styled(StepConnector)(() => ({
-  [`& .MuiStepConnector-line`]: {
-    border: 'none',
-    marginLeft: '-2px',
-    marginTop: '4px',
-    marginBottom: '4px',
-    borderLeft: '4px dotted gray',
-    height: '85%',
-  },
-}));
+import CustomStepper from './CustomStepper';
+import CustomStep from './CustomStep';
+import CustomConnector from './CustomConnector';
 
 function VerticalStepper({ length, labels, distances }: VerticalStepperProps) {
   return (
