@@ -4,7 +4,7 @@ import { PassengersInputProps } from '../types/components';
 import { parseSearchParams } from '../utils/searchParams';
 
 export function usePassengersInput(): PassengersInputProps {
-  const [value, setValue] = useState<number>(0);
+  const [value, setValue] = useState<number>(1);
   const [error, setError] = useState<string>('');
   const [searchParams, setSearchParams] = useSearchParams();
 

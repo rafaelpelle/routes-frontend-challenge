@@ -1,4 +1,6 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, Button, Grid } from '@mui/material';
 import { AddCircleOutline } from '@mui/icons-material';
 import { useCityInput } from '../hooks/useCityInput';
@@ -12,6 +14,13 @@ import DateInput from '../components/DateInput';
 import VerticalStepper from '../components/VerticalStepper';
 
 function HomePage() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const isDesktop = useMediaQuery('(min-width:900px)');
+
+  const passengersInputProps = usePassengersInput();
+  const dateInputProps = useDateInput();
   const {
     values,
     inputValues,
@@ -25,13 +34,34 @@ function HomePage() {
     handleRemoveDestination,
   } = useCityInput();
 
-  const passengersInputProps = usePassengersInput();
-  const dateInputProps = useDateInput();
-
   const shouldRenderRemoveButton = useCallback(
     (index: number) => index >= 1 && values.length >= 3,
     [values],
   );
+
+  const passengersIsValid = useMemo(
+    () => passengersInputProps.value >= 1,
+    [passengersInputProps.value],
+  );
+
+  const dateIsValid = useMemo(
+    () => dateInputProps.value?.isValid(),
+    [dateInputProps.value],
+  );
+
+  const citiesAreValid = useMemo(
+    () => values.every((value) => !!value),
+    [values],
+  );
+
+  const handleSubmit = useCallback(() => {
+    if (passengersIsValid && dateIsValid && citiesAreValid) {
+      navigate({
+        pathname: 'results',
+        search: searchParams.toString(),
+      });
+    }
+  }, [passengersIsValid, dateIsValid, citiesAreValid, searchParams, navigate]);
 
   return (
     <PageContainer>
@@ -95,6 +125,17 @@ function HomePage() {
             </Grid>
           </Grid>
         </Grid>
+
+        <Box mt={4} display="flex" justifyContent="center" width="100%">
+          <Button
+            variant="contained"
+            fullWidth={!isDesktop}
+            onClick={handleSubmit}
+            disabled={!passengersIsValid || !dateIsValid || !citiesAreValid}
+          >
+            Submit
+          </Button>
+        </Box>
       </ContentContainer>
     </PageContainer>
   );
