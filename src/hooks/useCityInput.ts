@@ -26,11 +26,11 @@ export function useCityInput() {
     });
     setValues(newValues);
     setOptions(newOptions);
+    // dependencies intentionally empty to run only once
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onChange = (_: any, newValue: City | null, index: number) => {
-    console.log('onChange');
     const newValues = [...values];
     const newInputValues = [...inputValues];
     const newOptions = [...options];

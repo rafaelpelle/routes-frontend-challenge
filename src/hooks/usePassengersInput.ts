@@ -1,22 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { PassengersInputProps } from '../types/components';
+import { parseSearchParams } from '../utils/searchParams';
 
 export function usePassengersInput(): PassengersInputProps {
   const [value, setValue] = useState<number>(0);
   const [error, setError] = useState<string>('');
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleIncrease = () => {
-    setValue(value + 1);
-
-    if (error) {
-      setError('');
+  useEffect(() => {
+    const { passengers } = parseSearchParams(searchParams);
+    if (passengers) {
+      setValue(Number(passengers));
     }
-  };
+    // dependencies intentionally empty to run only once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const handleDecrease = () => {
-    if (value > 0) {
-      const newValue = value - 1;
+  const handleChange = (amount: number) => {
+    const newValue = value + amount;
+    if (newValue >= 0) {
       setValue(newValue);
+      const newSearchParams = parseSearchParams(searchParams);
+      newSearchParams.passengers = `${newValue}`;
+      setSearchParams(newSearchParams);
 
       if (newValue === 0) {
         setError('Select passengers');
@@ -27,7 +34,6 @@ export function usePassengersInput(): PassengersInputProps {
   return {
     value,
     error,
-    handleIncrease,
-    handleDecrease,
+    handleChange,
   };
 }

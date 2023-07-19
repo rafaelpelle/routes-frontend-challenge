@@ -9,12 +9,7 @@ import {
 import { IndeterminateCheckBox, AddBox } from '@mui/icons-material';
 import { PassengersInputProps } from '../../types/components';
 
-function PassengersInput({
-  value,
-  error,
-  handleIncrease,
-  handleDecrease,
-}: PassengersInputProps) {
+function PassengersInput({ value, error, handleChange }: PassengersInputProps) {
   const isDesktop = useMediaQuery('(min-width:900px)');
 
   return (
@@ -36,14 +31,14 @@ function PassengersInput({
           style: { padding: '0px 4px' },
           startAdornment: (
             <InputAdornment position="start">
-              <IconButton onClick={handleDecrease}>
+              <IconButton onClick={() => handleChange(-1)}>
                 <IndeterminateCheckBox />
               </IconButton>
             </InputAdornment>
           ),
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton onClick={handleIncrease}>
+              <IconButton onClick={() => handleChange(1)}>
                 <AddBox />
               </IconButton>
             </InputAdornment>

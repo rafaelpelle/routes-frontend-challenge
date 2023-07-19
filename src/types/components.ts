@@ -26,8 +26,7 @@ export interface CityInputProps {
 export interface PassengersInputProps {
   value: number;
   error: string;
-  handleIncrease: () => void;
-  handleDecrease: () => void;
+  handleChange: (amount: number) => void;
 }
 
 export interface DateInputProps {
