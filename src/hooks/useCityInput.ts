@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 import { City } from '../types/model';
 import { getCities } from '../api/mock';
 import { parseSearchParams } from '../utils/searchParams';
 
 export function useCityInput() {
+  const { enqueueSnackbar } = useSnackbar();
   const [searchParams, setSearchParams] = useSearchParams();
   const [values, setValues] = useState<(City | null)[]>([null, null]);
   const [inputValues, setInputValues] = useState<string[]>(['', '']);
@@ -86,11 +88,17 @@ export function useCityInput() {
       newOptions[index] = data;
       setOptions(newOptions);
       setLoadings(Array.from({ length: loadings.length }, () => false));
-    } catch (error) {
+    } catch (error: any) {
+      const errorMsg =
+        typeof error?.message === 'string'
+          ? error.message
+          : 'Oops! Failed to search with this keyword.';
+      enqueueSnackbar(errorMsg, { variant: 'error' });
       const newLoadings = [...loadings];
       const newErrors = [...errors];
       newLoadings[index] = false;
-      newErrors[index] = 'Oops! Failed to search with this keyword.';
+      newErrors[index] = errorMsg;
+
       setLoadings(newLoadings);
       setErrors(newErrors);
     }
