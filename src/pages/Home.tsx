@@ -7,6 +7,7 @@ import { AddCircleOutline } from '@mui/icons-material';
 import { useCityInput } from '../hooks/useCityInput';
 import { usePassengersInput } from '../hooks/usePassengersInput';
 import { useDateInput } from '../hooks/useDateInput';
+import { parseSearchParams } from '../utils/searchParams';
 import PageContainer from '../components/PageContainer';
 import ContentContainer from '../components/ContentContainer';
 import CityInput from '../components/CityInput';
@@ -39,8 +40,9 @@ function HomePage() {
   } = useCityInput();
 
   useEffect(() => {
-    searchParams.set('passengers', `${INITIAL_PASSENGERS}`);
-    searchParams.set('date', INITIAL_DATE.toJSON());
+    const { passengers, date } = parseSearchParams(searchParams);
+    !passengers && searchParams.set('passengers', `${INITIAL_PASSENGERS}`);
+    !date && searchParams.set('date', INITIAL_DATE.toJSON());
     setSearchParams(searchParams);
     // dependencies intentionally empty to run only once
     // eslint-disable-next-line react-hooks/exhaustive-deps
