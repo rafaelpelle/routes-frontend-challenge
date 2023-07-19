@@ -40,8 +40,6 @@ function ResultsPage() {
 
   return (
     <PageContainer>
-      {/* {isLoading && <CircularProgress size={150} />} */}
-
       <ContentContainer>
         {isLoading ? (
           <CircularProgress size={50} />
