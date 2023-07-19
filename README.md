@@ -10,6 +10,15 @@ Click [here](challenge.md) to open.
 
 <br>
 
+
+## Explaining some decisions:
+- In the Home page, the data flow is controlled by custom hooks. In the Results page, the data flow is controlled by Redux/Sagas. This pattern mismatch is intentional, to present 2 different skills.
+
+- I've used a licensed favicon, and it's necessary to give credits to the author. That's why there's a link on the bottom of every page (as instructed by FlatIcon).
+
+
+<br>
+
 ## How to run:
 
 ### Install dependencies:
