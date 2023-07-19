@@ -26,6 +26,7 @@ const resultsReducer = (
         ...state,
         ...action.payload,
         isLoading: false,
+        error: null,
       };
     case 'RESULTS_FETCH_FAILED':
       return {
