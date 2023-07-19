@@ -3,3 +3,7 @@ export interface City {
   latitude: number;
   longitude: number;
 }
+
+export interface SearchParams {
+  [key: string]: string;
+}

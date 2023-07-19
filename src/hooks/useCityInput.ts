@@ -1,15 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { City } from '../types/model';
 import { getCities } from '../api/mock';
+import { parseSearchParams } from '../utils/searchParams';
 
 export function useCityInput() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [values, setValues] = useState<(City | null)[]>([null, null]);
   const [inputValues, setInputValues] = useState<string[]>(['', '']);
   const [options, setOptions] = useState<City[][]>([[], []]);
   const [errors, setErrors] = useState<string[]>(['', '']);
   const [loadings, setLoadings] = useState<boolean[]>([false, false]);
 
+  useEffect(() => {
+    const currentSearchParams = parseSearchParams(searchParams);
+    const newValues = [...values];
+    const newOptions = [...options];
+    Object.keys(currentSearchParams).forEach((key) => {
+      if (key.includes('city')) {
+        const index = Number(key.split('city')[1]);
+        const value = JSON.parse(currentSearchParams[key] || '');
+        newValues[index] = value;
+        newOptions[index] = value ? [value] : [];
+      }
+    });
+    setValues(newValues);
+    setOptions(newOptions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const onChange = (_: any, newValue: City | null, index: number) => {
+    console.log('onChange');
     const newValues = [...values];
     const newInputValues = [...inputValues];
     const newOptions = [...options];
@@ -19,6 +40,9 @@ export function useCityInput() {
     setValues(newValues);
     setInputValues(newInputValues);
     setOptions(newOptions);
+    const newSearchParams = parseSearchParams(searchParams);
+    newSearchParams[`city${index}`] = JSON.stringify(newValue);
+    setSearchParams(newSearchParams);
   };
 
   const onInputChange = (_: any, newInputValue: string, index: number) => {
@@ -38,7 +62,9 @@ export function useCityInput() {
       setOptions(newOptions);
       setErrors(newErrors);
     } else {
-      fetchOptions(newInputValue, index);
+      if (newInputValue !== values[index]?.name) {
+        fetchOptions(newInputValue, index);
+      }
     }
   };
 
