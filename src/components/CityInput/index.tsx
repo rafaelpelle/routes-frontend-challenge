@@ -50,6 +50,7 @@ function CityInput({
             <Typography variant="caption">{label}</Typography>
             <TextField
               {...params}
+              data-cy={`CityInput${index}`}
               value={inputValue}
               error={!!error}
               size="small"

@@ -117,7 +117,11 @@ function HomePage() {
                 <AddCircleOutline color="primary" />
               </Box>
 
-              <Button variant="text" onClick={handleAddDestination}>
+              <Button
+                variant="text"
+                onClick={handleAddDestination}
+                id="SubmitButton"
+              >
                 Add destination
               </Button>
             </Box>
