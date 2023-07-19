@@ -44,3 +44,20 @@ Open [http://localhost:3000](http://localhost:3000) to view in your browser.
 ```
 npm run build
 ```
+
+<br>
+
+### Run unit tests (Jest + RTL):
+
+```
+npm run test
+```
+
+<br>
+
+### Run E2E tests (Cypress):
+
+```
+npm run cypress
+```
+Remember: cypress is setup to access the [http://localhost:3000](http://localhost:3000) environment. You need to run the project in your local server before running cypress.
