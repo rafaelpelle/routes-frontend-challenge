@@ -30,7 +30,7 @@ function CityInput({
     <Box mb={2} display="flex" alignItems="center">
       <Autocomplete
         value={value}
-        options={options}
+        options={options || []}
         noOptionsText={inputValue ? 'Nothing found' : 'Search your city name'}
         autoComplete
         includeInputInList
