@@ -64,7 +64,7 @@ export function useCityInput() {
       setOptions(newOptions);
       setErrors(newErrors);
     } else {
-      if (newInputValue !== values[index]?.name) {
+      if (!options[index]?.some(({ name }) => name === newInputValue)) {
         fetchOptions(newInputValue, index);
       }
     }
